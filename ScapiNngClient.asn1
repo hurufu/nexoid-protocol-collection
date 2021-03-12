@@ -1,0 +1,32 @@
+ScapiNngClient
+
+DEFINITIONS AUTOMATIC TAGS ::=
+BEGIN
+
+    IMPORTS
+        ScapiRequest,
+        ScapiResponse,
+        ScapiNotification
+    FROM Scapi;
+
+    ScapiNngRequest ::= SEQUENCE {
+        req ScapiRequest,
+        id ExchangeId,
+        ...
+    }
+
+    ScapiNngResponse ::= SEQUENCE {
+        rsp ScapiResponse,
+        id ExchangeId,
+        ...
+    }
+
+    ScapiNngNotification ::= SEQUENCE {
+        ntf ScapiNotification,
+        id ExchangeId,
+        ...
+    }
+
+    ExchangeId ::= INTEGER(0..99999999)
+
+END
