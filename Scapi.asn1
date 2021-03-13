@@ -52,7 +52,9 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         serviceSelection [4] ScapiEventServiceSelection,
         manualEntry [5] ScapiEventManualEntry,
         terminate [6] ScapiEventTermination,
-        reboot [7] ScapiEventReboot
+        reboot [7] ScapiEventReboot,
+        amountEntry [8] ScapiEventAmountEntry,
+        ...
     }
 
     ScapiEventTermination ::= NULL
@@ -65,6 +67,23 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
     ScapiEventServiceSelection ::= SEQUENCE {
         serviceId [PRIVATE 14] ServiceIdentifier
+    }
+
+    ScapiEventAmountEntry ::= SEQUENCE {
+        totalAmount [140] NexoAmount,
+
+        minus [147] BOOLEAN OPTIONAL,
+
+        -- According to nexo-FAST v.3.2 note 16-50 if supplementary amount was
+        -- received then it must be confirmed, that means that 'confirmed' flag
+        -- is unnecessary in this case, but confirmation may be received
+        -- regardless of amount. That's why we have an excluding CHOICE here.
+        supplementaryAmount CHOICE {
+            confirmed [0] BOOLEAN,
+            amount [143] NexoAmount
+        } OPTIONAL,
+
+        cashbackAmount [142] NexoAmount OPTIONAL
     }
 
     ScapiPrintMessage ::= SEQUENCE {
