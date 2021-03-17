@@ -96,6 +96,8 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         cardholderReceipt(1)
     }
 
+    -- TODO: Consider redesign ScapiInteraction: combine choices, that are
+    -- always sent together, remove unused choices.
     ScapiInteraction ::= SEQUENCE {
         language Iso639 DEFAULT "en",
         what SET OF CHOICE {
@@ -111,11 +113,12 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
             commandKeyEnterLabel [138] NexoCommandKey,
             commandKeyChangeApplicationLabel [141] NexoCommandKey,
             commandKeyPinBypassLabel [144] NexoCommandKey,
-            paymentAmount [137] NexoAmount,
+            paymentAmount [137] NexoAmount, -- FIXME: Should be analysed and removed
             trxAmount [140] NexoAmount,
             cashbackAmount [142] NexoAmount,
             supplementaryAmount [143] NexoAmount,
-            trxCurrencyAlpha3 [139] Iso4217,
+            trxCurrencyAlpha3 [139] Iso4217Alpha3,
+            trxCurrencyExponent [54] Iso4217Exponent, -- NEXO: Not specified, but needed to properly display amount
             selectedService [132] ServiceIdentifier,
             nokReason [134] NexoNokReason,
             searchTrxResultList [145] SEQUENCE OF ScapiSearchTrxResult,
@@ -131,7 +134,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         languagePreference [3] Iso639 OPTIONAL,
         valueQualifier [4] ScapiValueQualifier,
         value [5] NexoAmount,
-        currencyCode [6] Iso4217
+        currencyCode [6] Iso4217Alpha3
     }
 
     ScapiSearchTrxResult ::= SEQUENCE {
@@ -330,7 +333,11 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
     BCD ::= OCTET STRING
 
-    Iso4217 ::= UTF8String (SIZE(3))
+    Iso4217Alpha3 ::= UTF8String (SIZE(3))
+
+    Iso4217Numeric ::= INTEGER (0..9999)
+
+    Iso4217Exponent ::= INTEGER (0..4)
 
     Iso639 ::= UTF8String
      (SIZE(2))
