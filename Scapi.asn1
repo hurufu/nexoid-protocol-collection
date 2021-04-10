@@ -3,6 +3,7 @@ Scapi
 DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
     -- Notification from SCAP to nexoid core
+    -- Accordging to nexo, notifications don't have any matching response
     ScapiNotification ::= SEQUENCE {
         events [2] ScapiEventSequence
     }
