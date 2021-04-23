@@ -104,6 +104,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         what SET OF CHOICE {
             msg [0] ScapiCardholderMesage,
             ssn [1] ScapiSaleSystemNotification,
+            missingParameters [2] MissingParameters,
             uiParametersForOutcome [128] ScapiUiParameters,
             uiParametersForRestart [129] ScapiUiParameters,
             uiParametersForCompletion [130] ScapiUiParameters,
@@ -294,6 +295,10 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         cvd [0] Cvd,
         cvdPresence [1] ScapiCvdPresence
     }
+
+    MissingParameters ::= SEQUENCE (SIZE(1..25)) OF ParameterName
+
+    ParameterName ::= PrintableString (SIZE(1..64))
 
     Pan ::= UTF8String (SIZE(16..19))
 
