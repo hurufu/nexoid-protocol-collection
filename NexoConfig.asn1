@@ -1,0 +1,98 @@
+NexoConfig
+
+DEFINITIONS IMPLICIT TAGS ::=
+BEGIN
+
+    -- NOTE: In nexo terminology list is a concatenation of values
+    -- TODO: Bit fields and lists have to be fixed
+
+    IMPORTS
+        Iso639,
+        FixedString,
+        ServiceIdentifier
+    FROM Common;
+
+    -- EO
+    PermanentTerminalSpecificData ::= SET {
+        ifdSerialNumber [30] FixedString{8} OPTIONAL,
+        commandKeyBypassPinLabel [PRIVATE 50] FixedString{6} OPTIONAL,
+        commandKeyClearLabel [PRIVATE 14] FixedString{5},
+        commandKeyEnterLabeli [PRIVATE 15] FixedString{5},
+        commandKeyScrollLabel [PRIVATE 16] FixedString{5},
+        commandKeyChangeApplicationLabel [PRIVATE 53] FixedString{5},
+        ...
+    }
+
+    -- E1
+    TerminalSpecificData ::= SET {
+        additionalTerminalCapabilities AdditionalTerminalCapabilities, -- 9F40
+        cardholderDefaultLanguage [PRIVATE 18] Iso639,
+        configuredServices [PRIVATE 19] ConfiguredServices,
+        defaultCardService [PRIVATE 23] ServiceIdentifier,
+        maxNumberOfChipTries [PRIVATE 24] INTEGER (0..255),
+        terminalApplicationVersionListContact [PRIVATE 64] TerminalApplicationVersionList,
+        terminalApplicationVersionListContactles [PRIVATE 73] TerminalApplicationVersionList OPTIONAL,
+        terminalCapabilities [51] TerminalCapabilities,
+        terminalCountryCode [26] Iso3166,
+        terminalIdentification [28] FixedString{8},
+        terminalSettings [PRIVATE 52] TerminalSettings,
+        terminalSupportedLanguageList [PRIVATE 51] TerminalSupportedLanguageList,
+        terminalType [53] TerminalType,
+        terminalTransactionCurrencyCode [PRIVATE 53] Iso4217Numeric,
+        terminalTransactionCurrencyCodeAlpha3 [PRIVATE 71] Iso4217Alpha3,
+        terminalTransactionCurrencyExponent [PRIVATE 54] Iso4217Exponent,
+        unpredictableNumberRange [PRIVATE 70] INTEGER (0..255) OPTIONAL,
+        eeaProcessSettings [PRIVATE 82] EeaProcessSettings OPTIONAL,
+        ...
+    }
+
+    EeaProcessSettings ::= BIT STRING (SIZE(2))
+
+    TerminalType ::= BIT STRING (SIZE(1))
+
+    TerminalSupportedLanguageList ::= SEQUENCE (SIZE(2..15)) OF Iso639
+
+    TerminalSettings ::= BIT STRING (SIZE(5))
+
+    TerminalCapabilities ::= BIT STRING {
+        icWithContacts(5),
+        magneticStripe(6),
+        manualEntry(7),
+        noCvmRequired(10),
+        encipheredPinForOfflineVerification(11),
+        signature(12),
+        encipheredPinForOnlineVerification(13),
+        plainTextPinForIccVerification(14),
+        cda(19),
+        cardCapture(20),
+        dda(21),
+        sda(22)
+    } (SIZE(3))
+
+    -- TODO: This should be encoded as flat concatenated data
+    TerminalApplicationVersionList ::= SEQUENCE (SIZE(1..50)) OF TerminalApplicationVersionEntry
+    TerminalApplicationVersionEntry ::= SEQUENCE {
+        rid OCTET STRING (SIZE(5)),
+        applicationVersionNumber INTEGER (0..65535)
+    }
+
+    AdditionalTerminalCapabilities ::= BIT STRING (SIZE(5))
+
+    -- FIXME: Check if order should be different
+    ConfiguredServices ::= BIT STRING {
+        deferredPayment(0),
+        cashAdvance(1),
+        paymentCompletion(2),
+        updatePreAuthorisation(3),
+        preAuthorisation(4),
+        cancellation(5),
+        refund(6),
+        payment(7),
+        voiceAuthorisation(11),
+        noShow(12),
+        cardValidityCheck(13),
+        cardholderDetection(14),
+        deferredPaymentCompletion(15)
+    } (SIZE(2))
+
+END

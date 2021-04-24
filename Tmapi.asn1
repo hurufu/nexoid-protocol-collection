@@ -1,0 +1,23 @@
+Tmapi
+
+DEFINITIONS IMPLICIT TAGS ::=
+BEGIN
+
+    IMPORTS
+        PermanentTerminalSpecificData,
+        TerminalSpecificData
+    FROM NexoConfig;
+
+    TmapiStatusReport ::= SEQUENCE {
+        -- TODO Send all data relevant to Status Report
+    }
+
+    TmapiConfigurationUpdate ::= SEQUENCE {
+        permanentTerminalSpecificData [PRIVATE 0] PermanentTerminalSpecificData OPTIONAL,
+        terminalSpecificData [PRIVATE 1] TerminalSpecificData OPTIONAL
+    }
+
+    -- TODO: How to deal with updates that can happen
+    -- at a specified time?
+
+END

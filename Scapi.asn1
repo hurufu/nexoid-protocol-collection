@@ -1,6 +1,12 @@
 Scapi
 
-DEFINITIONS IMPLICIT TAGS ::= BEGIN
+DEFINITIONS IMPLICIT TAGS ::=
+BEGIN
+
+    IMPORTS
+        Iso639,
+        ServiceIdentifier
+    FROM Common;
 
     -- Notification from SCAP to nexoid core
     -- Accordging to nexo, notifications don't have any matching response
@@ -268,23 +274,6 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         opaquePinData [1] OCTET STRING
     }
 
-    ServiceIdentifier ::= ENUMERATED {
-        none(0),
-        payment(1),
-        refund(2),
-        cancellation(3),
-        preauth(4),
-        updatePreauth(5),
-        completion(6),
-        cashAdvance(7),
-        deferredPayment(8),
-        deferredPaymentCompletion(9),
-        voiceAuthorisation(16),
-        cardholderDetection(17),
-        cardValidityCheck(18),
-        noShow(19)
-    }
-
     ScapiEventManualEntry ::= SEQUENCE {
         pan [90] Pan,
         expirationDate [89] ScapiExpirationDate,
@@ -338,29 +327,6 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
     CBCD ::= OCTET STRING
 
     BCD ::= OCTET STRING
-
-    Iso4217Alpha3 ::= UTF8String (SIZE(3))
-
-    Iso4217Numeric ::= INTEGER (0..9999)
-
-    Iso4217Exponent ::= INTEGER (0..4)
-
-    Iso639 ::= UTF8String
-     (SIZE(2))
---      (
--- "aa" | "ab" | "af" | "ak" | "am" | "an" | "ar" | "as" | "av" | "ay" | "az" | "ba" | "be" | "bg" | "bh" | "bi" |
--- "bm" | "bn" | "bo" | "br" | "bs" | "ca" | "ce" | "ch" | "co" | "cr" | "cs" | "cu" | "cv" | "cy" | "da" | "de" |
--- "dv" | "dz" | "ee" | "el" | "en" | "eo" | "es" | "et" | "eu" | "fa" | "ff" | "fi" | "fj" | "fo" | "fr" | "fy" |
--- "ga" | "gd" | "gl" | "gn" | "gu" | "gv" | "ha" | "he" | "hi" | "ho" | "hr" | "ht" | "hu" | "hy" | "hz" | "ia" |
--- "id" | "ie" | "ig" | "ii" | "ik" | "io" | "is" | "it" | "iu" | "ja" | "jv" | "ka" | "kg" | "ki" | "kj" | "kk" |
--- "kl" | "km" | "kn" | "ko" | "kr" | "ks" | "ku" | "kv" | "kw" | "ky" | "la" | "lb" | "lg" | "li" | "ln" | "lo" |
--- "lt" | "lu" | "lv" | "mg" | "mh" | "mi" | "mk" | "ml" | "mn" | "mo" | "mr" | "ms" | "mt" | "my" | "na" | "no" |
--- "nb" | "nn" | "ne" | "ng" | "nl" | "nd" | "nr" | "nv" | "ny" | "oc" | "oj" | "om" | "or" | "os" | "pa" | "pi" |
--- "pl" | "ps" | "pt" | "qu" | "rm" | "rn" | "ro" | "ru" | "rw" | "sa" | "sc" | "sd" | "se" | "sg" | "sh" | "si" |
--- "sk" | "sl" | "sm" | "sn" | "so" | "sq" | "sr" | "ss" | "st" | "su" | "sv" | "sw" | "ta" | "te" | "tg" | "th" |
--- "ti" | "tk" | "tl" | "tn" | "to" | "tr" | "ts" | "tt" | "tw" | "ty" | "ug" | "uk" | "ur" | "uz" | "ve" | "vi" |
--- "vo" | "wa" | "wo" | "xh" | "yi" | "yo" | "za" | "zh" | "zu"
---      )
 
     NexoNokReason ::= ENUMERATED {
         uninitialised,
