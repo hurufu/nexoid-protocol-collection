@@ -135,6 +135,86 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         }
     }
 
+    ScapiInteractionV2 ::= SEQUENCE {
+        language Iso639 DEFAULT "en",
+        cardholder ScapiCardholderInteraction
+    }
+
+    ScapiCardholderInteraction ::= SEQUENCE {
+        -- General type of message to display
+        -- NEXO: This classification is not descibed in nexo
+        msg CHOICE {
+            idle [0] ScapiIdleMessage,
+            normal [1] ScapiNormalMessage,
+            cardRequest [2] ScapiCardRequestMessage
+        }
+    }
+
+    ScapiIdleMessage ::= SEQUENCE {
+        msg ScapiCardholderMesage (
+            crdhldrMsgWelcome
+        )
+    }
+
+    --
+    ScapiNormalMessage ::= SEQUENCE {
+        -- Duration in deciseconds for which a message should be displayed.
+        -- A response for such request should be received after this delay.
+        -- Trusted layer may verify if this amount of time actualy elapsed.
+        -- If holdTime equals 0 then message should be displayed indefinitely
+        -- and response should be received immidiately.
+        holdTime ScapiHoldTime,
+
+        --
+        message ScapiCardholderMesage
+    }
+
+    -- After this message terminal nexo-FAST will wait for an event
+    ScapiCardRequestMessage ::= SEQUENCE {
+        status ScapiCtlsIndicatorStatus (
+            ctlsStatusNotReady |
+            ctlsStatusReadyToRead
+        ),
+        confirmationText ConfirmationText,
+        message ScapiCardholderMesage,
+        appChoice AppChoice OPTIONAL
+    } (
+        (WITH COMPONENTS {
+                ...,
+                message (
+                    crdhldrMsgPresentCard |
+                    crdhldrMsgPresentCardOrUseMagstripe
+                ),
+                appChoice ABSENT
+        }) |
+        (WITH COMPONENTS {
+                ...,
+                message (
+                    crdhldrEmvInsertCard |
+                    crdhldrMsgInsertOrPresentCard
+                )
+        })
+    )
+
+    ConfirmationText ::= SEQUENCE {
+        selectedService [132] ServiceIdentifier,
+        trx TransactionAmountToConfirm OPTIONAL
+    }
+
+    AppChoice ::= SEQUENCE {
+        msg ScapiCardholderMesage (
+            crdhldrMsgChooseApplication
+        ) DEFAULT crdhldrMsgChooseApplication,
+        commandKeyChangeApplicationLabel [141] NexoCommandKey
+    }
+
+    TransactionAmountToConfirm ::= SEQUENCE {
+        amount [140] NexoAmount,
+        -- NEXO: Not specified, but needed to properly display amount
+        currencyAlpha3 [139] Iso4217Alpha3,
+        currencyExponent [54] Iso4217Exponent
+    }
+
     ScapiUiParameters ::= SET {
         msg [0] ScapiCardholderMesage,
         status [1] ScapiCtlsIndicatorStatus,
