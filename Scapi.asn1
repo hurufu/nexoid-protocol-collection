@@ -55,6 +55,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         terminate [6] ScapiEventTermination,
         reboot [7] ScapiEventReboot,
         amountEntry [8] ScapiEventAmountEntry,
+        acquirerPreSelection [9] ScapiAcquirerPreSelection,
         ...
     }
 
@@ -85,6 +86,10 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         } OPTIONAL,
 
         cashbackAmount [142] NexoAmount OPTIONAL
+    }
+
+    ScapiAcquirerPreSelection ::= SEQUENCE {
+        preSelectedAcquirerNumber BCD
     }
 
     ScapiPrintMessage ::= SEQUENCE {
