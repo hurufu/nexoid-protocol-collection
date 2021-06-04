@@ -138,7 +138,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
     ScapiUiParameters ::= SET {
         msg [0] ScapiCardholderMesage,
         status [1] ScapiCtlsIndicatorStatus,
-        holdTime [2] INTEGER (0..999999),
+        holdTime [2] ScapiHoldTime,
         languagePreference [3] Iso639 OPTIONAL,
         valueQualifier [4] ScapiValueQualifier,
         value [5] NexoAmount,
@@ -177,6 +177,8 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         ctlsStatusCardReadSuccessfully,
         ctlsStatusProcessingError
     }
+
+    ScapiHoldTime ::= INTEGER (0..999999)
 
     ScapiCardholderMesage ::= ENUMERATED {
         crdhldrActNone(0),
