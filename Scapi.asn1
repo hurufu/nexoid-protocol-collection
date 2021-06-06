@@ -48,6 +48,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         interfaceCardholderDetect(8)
     }
 
+    -- Use same tag numbers for APDUs and scapi::Event index
     ScapiEvent ::= CHOICE {
         languageSelection [3] ScapiEventLanguageSelection,
         serviceSelection [4] ScapiEventServiceSelection,
@@ -56,6 +57,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         reboot [7] ScapiEventReboot,
         amountEntry [8] ScapiEventAmountEntry,
         acquirerPreSelection [9] ScapiEventAcquirerPreSelection,
+        cardInserted [10] ScapiEventCardInserted,
         ...
     }
 
@@ -90,6 +92,9 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
     ScapiEventAcquirerPreSelection ::= SEQUENCE {
         preSelectedAcquirerNumber BCD
+    }
+
+    ScapiEventCardInserted ::= SEQUENCE {
     }
 
     ScapiPrintMessage ::= SEQUENCE {
