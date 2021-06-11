@@ -265,20 +265,20 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         pan [0] Pan,
         cvd [1] Cvd,
         cvdPresence [2] ScapiCvdPresence,
-        pin [10] ScapiCardholderEnterPin,
+        pin [10] ScapiCardholderPin,
         expirationDate [36] ScapiExpirationDate
     }
 
-    ScapiCardholderEnterPin ::= SEQUENCE {
-        pinPadNotWorking BOOLEAN,
-        pinEntryBypassed BOOLEAN,
-        cardholderRequestedChangeOfApplication BOOLEAN,
-        pinData ScapiPinData
+    ScapiCardholderPin ::= CHOICE {
+        plainTextPin [0] NumericString (SIZE(4..12)), -- Only used for debugging
+        opaquePinData [1] OCTET STRING,
+        noPin [2] ScapiPinAbsenceReason
     }
 
-    ScapiPinData ::= CHOICE {
-        plainTextPin [0] NumericString (SIZE(4..12)),
-        opaquePinData [1] OCTET STRING
+    ScapiPinAbsenceReason ::= ENUMERATED {
+        pinPadNotWorking(0),
+        pinEntryBypassed(1),
+        cardholderRequestedChangeOfApplication(2)
     }
 
     ServiceIdentifier ::= ENUMERATED {
