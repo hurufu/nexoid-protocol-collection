@@ -23,7 +23,8 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
         entry,
         ssn,
         interface,
-        print
+        print,
+        pin
     }
 
     SourceIdentification ::= SEQUENCE {
