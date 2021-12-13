@@ -1,0 +1,30 @@
+EventLog
+
+DEFINITIONS AUTOMATIC TAGS ::=
+BEGIN
+
+    IMPORTS
+        ScapiRequest,
+        ScapiResponse,
+        ScapiNotification
+    FROM Scapi;
+
+    EventLogRecord ::= SEQUENCE {
+        ts GeneralizedTime,
+        ev Event
+    }
+
+    Event ::= SEQUENCE {
+        id ExchangeId,
+        pd Payload
+    }
+
+    Payload ::= CHOICE {
+        req ScapiRequest,
+        rsp ScapiResponse,
+        ntf ScapiNotification
+    }
+
+    ExchangeId ::= INTEGER(0..99999999)
+
+END
