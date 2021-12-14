@@ -212,10 +212,14 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         crdhldrActClear(30),
         crdhldrMsgSeePhoneForInstructions(32),
         crdhldrMsgPresentCardAgain(33),
+
+        -- Events related to Manual entry, probably should be on an attendant
+        -- display, see nexo-IS TC v4.0.19 section 3.6.71
         crdhldrEntEnterPan(176),
         crdhldrEntEnterExpiryDate(177),
         crdhldrEntCvdPresence(178),
         crdhldrEntCvd(179),
+
         crdhldrEntDccConfirmation(180),
         crdhldrMsgSupplementaryAmountNotAllowed(181),
         crdhldrMsgCashbackNotAllowed(182),
