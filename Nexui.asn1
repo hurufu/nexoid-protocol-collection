@@ -13,7 +13,10 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
             api ApiType,
             line SEQUENCE OF UTF8String,
             cardholderMessage SEQUENCE OF ScapiCardholderMesage OPTIONAL
-        }
+        },
+        ...
+        -- UiRequest should also contain original exchange id to be able to track each message from the source
+        -- Also it may contain additional data to visualise for example enabled readers or for debugging
     }
 
     UiResponse ::= ScapiResponse

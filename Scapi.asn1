@@ -27,7 +27,13 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
     ScapiNak ::= SEQUENCE {
         nokReason [0] NexoNokReason OPTIONAL,
-        terminalErrorReason [1] NexoTerminalErrorReason OPTIONAL
+        terminalErrorReason [1] NexoTerminalErrorReason OPTIONAL,
+        ...,
+        failedInterfaces [2] ScapiInterfaceStatus OPTIONAL
+        -- Consider additional information:
+        --  Text description of an error
+        --  Which subsytem actually caused an error (MSR, SHCR, CTLS, other)
+        --  Aditional data a subsytem may wish to report
     }
 
     ScapiEventSequence ::= SEQUENCE OF ScapiEvent
