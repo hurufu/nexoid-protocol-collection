@@ -23,7 +23,7 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
         entry,
         ssn,
         interface,
-        print,
+        printer,
         pin
     }
 
