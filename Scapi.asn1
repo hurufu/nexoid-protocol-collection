@@ -64,6 +64,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         amountEntry [8] ScapiEventAmountEntry,
         acquirerPreSelection [9] ScapiEventAcquirerPreSelection,
         cardInserted [10] ScapiEventCardInserted,
+        oneCtlsCardActivated [11] ScapiOneCtlsCardActivated,
         ...
     }
 
@@ -101,6 +102,11 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
     }
 
     ScapiEventCardInserted ::= SEQUENCE {
+    }
+
+    ScapiOneCtlsCardActivated ::= SEQUENCE {
+        -- TODO: add some PICC related data, like ATR, UID, etc.
+        ...
     }
 
     ScapiPrintMessage ::= SEQUENCE {
