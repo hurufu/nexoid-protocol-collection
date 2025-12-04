@@ -112,7 +112,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
     ScapiInteraction ::= SEQUENCE {
         language Iso639 DEFAULT "en",
         what SET OF CHOICE {
-            msg [0] ScapiCardholderMesage,
+            msg [0] ScapiCardholderMessage,
             ssn [1] ScapiSaleSystemNotification,
             missingParameters [2] MissingParameters,
             uiParametersForOutcome [128] ScapiUiParameters,
