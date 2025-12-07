@@ -145,7 +145,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
     ScapiInteraction ::= SEQUENCE {
         language Iso639 DEFAULT "en",
         what SET OF CHOICE {
-            msg [0] ScapiCardholderMesage,
+            msg [0] ScapiCardholderMessage,
             ssn [1] ScapiSaleSystemNotification,
             missingParameters [2] MissingParameters,
             uiParametersForOutcome [128] ScapiUiParameters,
@@ -187,7 +187,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         entryReference [1] INTEGER (0..99),
         selectedService [2] ServiceIdentifier,
         trxAmount [3] NexoAmount,
-        transactionDate [4] NexoDate,
+        transactionDate [4] NexoDate, -- Consider using UTCTime, DATA-TIME or GeneralizedTime
         transactionTime [5] NexoTime,
         transactionResult [6] NexoTransactionResult,
         panMasked [7] PanMasked,
