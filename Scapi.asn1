@@ -174,7 +174,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
     }
 
     ScapiUiParameters ::= SET {
-        msg [0] ScapiCardholderMesage,
+        msg [0] ScapiCardholderMessage,
         status [1] ScapiCtlsIndicatorStatus,
         holdTime [2] ScapiHoldTime,
         languagePreference [3] Iso639 OPTIONAL,
@@ -218,7 +218,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
     ScapiHoldTime ::= INTEGER (0..999999)
 
-    ScapiCardholderMesage ::= ENUMERATED {
+    ScapiCardholderMessage ::= ENUMERATED {
         crdhldrActNone(0),
         crdhldrEmvApproved(3),
         crdhldrEmvVoiceAuthRequired(4),
