@@ -383,10 +383,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
     ScapiKernel ::= INTEGER (1..7)
 
-    ScapiApplicationPriorityIndicator ::= BIT STRING {
-        priority                          (0),  -- bits 0..3
-        cardholderConfirmationRequired    (7)
-    } (SIZE(8))
+    ScapiApplicationPriorityIndicator ::= OCTET STRING (SIZE(1))
 
     NexoAmount ::= INTEGER(0..999999999999)
 
