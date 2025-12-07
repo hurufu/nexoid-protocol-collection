@@ -131,7 +131,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
 
     ScapiCandidateApplication ::= SEQUENCE {
         applicationPriorityIndicator ScapiApplicationPriorityIndicator,
-        applicationLabel OCTET STRING (SIZE(0..16)), -- encoding is defined by the code table index
+        applicationLabel PrintableString (SIZE(0..16)), -- encoding is defined by the code table index
         issuerCodeTableIndex INTEGER (1..10),
         adf ScapiAid,
         aidTerminal ScapiAid,
