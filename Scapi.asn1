@@ -14,7 +14,9 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         output [1] ScapiInteraction,
         print [2] ScapiPrintMessage,
         entry [3] ScapiInteraction,
-        authoriseService [4] NULL
+        authoriseService [4] NULL,
+        ...,
+        buildCandidateList ScapiBuildCandidateList
     }
 
     -- Response to the request
@@ -22,8 +24,16 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         nak [0] ScapiNak,
         ack [1] NULL,
         ackEntry [2] SEQUENCE OF ScapiDataEntryIntercation,
-        ackServiceAuthorised [3] BOOLEAN
+        ackServiceAuthorised [3] BOOLEAN,
+        ...,
+        candidateList ScapiCandidateList
     }
+
+    ScapiBuildCandidateList ::= SEQUENCE {
+        -- TODO: add relevant data items
+    }
+
+    ScapiCandidateList ::= SEQUENCE OF ScapiCandidateApplication
 
     ScapiNak ::= SEQUENCE {
         nokReason [0] NexoNokReason OPTIONAL,
@@ -117,6 +127,17 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
     ScapiReceiptType ::= ENUMERATED {
         merchantReceipt(0),
         cardholderReceipt(1)
+    }
+
+    ScapiCandidateApplication ::= SEQUENCE {
+        applicationPriorityIndicator ScapiApplicationPriorityIndicator,
+        applicationLabel OCTET STRING (SIZE(0..16)), -- encoding is defined by the code table index
+        issuerCodeTableIndex INTEGER (1..10),
+        adf ScapiAid,
+        aidTerminal ScapiAid,
+        kernelId ScapiKernel,
+        ...
+        -- Consider adding extended AID and many more tags
     }
 
     -- TODO: Consider redesign ScapiInteraction: combine choices, that are
@@ -357,6 +378,15 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         cvdIllegible(2),
         cvdNotPresent(3)
     }
+
+    ScapiAid ::= OCTET STRING (SIZE(5..16))
+
+    ScapiKernel ::= INTEGER (1..7)
+
+    ScapiApplicationPriorityIndicator ::= BIT STRING {
+        priority                          (0),  -- bits 0..3
+        cardholderConfirmationRequired    (7)
+    } (SIZE(8))
 
     NexoAmount ::= INTEGER(0..999999999999)
 
