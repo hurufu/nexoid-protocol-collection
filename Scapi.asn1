@@ -88,7 +88,7 @@ BEGIN
     }
 
     ScapiEventServiceSelection ::= SEQUENCE {
-        serviceId [PRIVATE 14] ServiceIdentifier
+        serviceId [APPLICATION 14] ServiceIdentifier
     }
 
     ScapiEventAmountEntry ::= SEQUENCE {
