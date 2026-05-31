@@ -1,6 +1,7 @@
 Scapi
 
-DEFINITIONS IMPLICIT TAGS ::= BEGIN
+DEFINITIONS EXPLICIT TAGS ::=
+BEGIN
 
     -- Notification from SCAP to nexoid core
     -- Accordging to nexo, notifications don't have any matching response
@@ -26,7 +27,7 @@ DEFINITIONS IMPLICIT TAGS ::= BEGIN
         ackEntry [2] SEQUENCE OF ScapiDataEntryIntercation,
         ackServiceAuthorised [3] BOOLEAN,
         ...,
-        candidateList ScapiCandidateList
+        candidateList [4] ScapiCandidateList
     }
 
     ScapiBuildCandidateList ::= SEQUENCE {
