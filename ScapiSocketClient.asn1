@@ -1,6 +1,6 @@
 ScapiSocket
 
-DEFINITIONS AUTOMATIC TAGS ::=
+DEFINITIONS EXPLICIT TAGS ::=
 BEGIN
 
     IMPORTS
@@ -11,18 +11,18 @@ BEGIN
 
     ScapiSocketRequest ::= SEQUENCE {
         req CHOICE {
-            interaction ScapiRequest,
-            notification ScapiSocketNotificationRequest,
-            registration ScapiSocketRegistrationRequest
+            registration [0] ScapiSocketRegistrationRequest,
+            notification [1] ScapiSocketNotificationRequest,
+            interaction [2] ScapiRequest
         },
         ...
     }
 
     ScapiSocketResponse ::= SEQUENCE {
         rsp CHOICE {
-            interaction ScapiResponse,
-            notification ScapiNotification,
-            registration ScapiSocketRegistrationAnswer
+            registration [0] ScapiSocketRegistrationAnswer,
+            notification [1] ScapiNotification,
+            interaction [2] ScapiResponse
         },
         ...
     }
