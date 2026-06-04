@@ -1,6 +1,7 @@
 Scapi
 
-DEFINITIONS EXPLICIT TAGS ::= BEGIN
+DEFINITIONS EXPLICIT TAGS ::=
+BEGIN
 
     -- Notification from SCAP to nexoid core
     -- Accordging to nexo, notifications don't have any matching response
@@ -14,7 +15,9 @@ DEFINITIONS EXPLICIT TAGS ::= BEGIN
         output [1] ScapiInteraction,
         print [2] ScapiPrintMessage,
         entry [3] ScapiInteraction,
-        authoriseService [4] NULL
+        authoriseService [4] NULL,
+        ...,
+        buildCandidateList ScapiBuildCandidateList
     }
 
     -- Response to the request
@@ -22,12 +25,26 @@ DEFINITIONS EXPLICIT TAGS ::= BEGIN
         nak [0] ScapiNak,
         ack [1] NULL,
         ackEntry [2] SEQUENCE OF ScapiDataEntryIntercation,
-        ackServiceAuthorised [3] BOOLEAN
+        ackServiceAuthorised [3] BOOLEAN,
+        ...,
+        candidateList [4] ScapiCandidateList
     }
+
+    ScapiBuildCandidateList ::= SEQUENCE {
+        -- TODO: add relevant data items
+    }
+
+    ScapiCandidateList ::= SEQUENCE OF ScapiCandidateApplication
 
     ScapiNak ::= SEQUENCE {
         nokReason [0] NexoNokReason OPTIONAL,
-        terminalErrorReason [1] NexoTerminalErrorReason OPTIONAL
+        terminalErrorReason [1] NexoTerminalErrorReason OPTIONAL,
+        ...,
+        failedInterfaces [2] ScapiInterfaceStatus OPTIONAL
+        -- Consider additional information:
+        --  Text description of an error
+        --  Which subsytem actually caused an error (MSR, SHCR, CTLS, other)
+        --  Aditional data a subsytem may wish to report
     }
 
     ScapiEventSequence ::= SEQUENCE OF ScapiEvent
@@ -58,6 +75,7 @@ DEFINITIONS EXPLICIT TAGS ::= BEGIN
         amountEntry [8] ScapiEventAmountEntry,
         acquirerPreSelection [9] ScapiEventAcquirerPreSelection,
         cardInserted [10] ScapiEventCardInserted,
+        oneCtlsCardActivated [11] ScapiOneCtlsCardActivated,
         ...
     }
 
@@ -70,7 +88,7 @@ DEFINITIONS EXPLICIT TAGS ::= BEGIN
     }
 
     ScapiEventServiceSelection ::= SEQUENCE {
-        serviceId [PRIVATE 14] ServiceIdentifier
+        serviceId [APPLICATION 14] ServiceIdentifier
     }
 
     ScapiEventAmountEntry ::= SEQUENCE {
@@ -97,6 +115,11 @@ DEFINITIONS EXPLICIT TAGS ::= BEGIN
     ScapiEventCardInserted ::= SEQUENCE {
     }
 
+    ScapiOneCtlsCardActivated ::= SEQUENCE {
+        -- TODO: add some PICC related data, like ATR, UID, etc.
+        ...
+    }
+
     ScapiPrintMessage ::= SEQUENCE {
         type ScapiReceiptType,
         extraData SEQUENCE OF ANY OPTIONAL -- Based on Receipt DOL
@@ -105,6 +128,17 @@ DEFINITIONS EXPLICIT TAGS ::= BEGIN
     ScapiReceiptType ::= ENUMERATED {
         merchantReceipt(0),
         cardholderReceipt(1)
+    }
+
+    ScapiCandidateApplication ::= SEQUENCE {
+        applicationPriorityIndicator ScapiApplicationPriorityIndicator,
+        applicationLabel PrintableString (SIZE(0..16)), -- encoding is defined by the code table index
+        issuerCodeTableIndex INTEGER (1..10),
+        adf ScapiAid,
+        aidTerminal ScapiAid,
+        kernelId ScapiKernel,
+        ...
+        -- Consider adding extended AID and many more tags
     }
 
     -- TODO: Consider redesign ScapiInteraction: combine choices, that are
@@ -141,7 +175,7 @@ DEFINITIONS EXPLICIT TAGS ::= BEGIN
     }
 
     ScapiUiParameters ::= SET {
-        msg [0] ScapiCardholderMesage,
+        msg [0] ScapiCardholderMessage,
         status [1] ScapiCtlsIndicatorStatus,
         holdTime [2] ScapiHoldTime,
         languagePreference [3] Iso639 OPTIONAL,
@@ -185,7 +219,7 @@ DEFINITIONS EXPLICIT TAGS ::= BEGIN
 
     ScapiHoldTime ::= INTEGER (0..999999)
 
-    ScapiCardholderMesage ::= ENUMERATED {
+    ScapiCardholderMessage ::= ENUMERATED {
         crdhldrActNone(0),
         crdhldrEmvApproved(3),
         crdhldrEmvVoiceAuthRequired(4),
@@ -345,6 +379,12 @@ DEFINITIONS EXPLICIT TAGS ::= BEGIN
         cvdIllegible(2),
         cvdNotPresent(3)
     }
+
+    ScapiAid ::= OCTET STRING (SIZE(5..16))
+
+    ScapiKernel ::= INTEGER (1..7)
+
+    ScapiApplicationPriorityIndicator ::= OCTET STRING (SIZE(1))
 
     NexoAmount ::= INTEGER(0..999999999999)
 
